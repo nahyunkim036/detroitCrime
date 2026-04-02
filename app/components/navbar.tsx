@@ -8,7 +8,10 @@ export default function Navbar() {
     { name: "Search", href: "/search" },
     { name: "Map", href: "/map" },
     { name: "Dashboard", href: "/dashboard" },
-    { name: "Table", href: "/table" },
+    { name: "Add", href: "/table" },
+    { name: "Delete", href: "" },
+    {name: "Update", href: ""},
+    {name: "Documentation", href: "/about"},
   ];
 
   return (
