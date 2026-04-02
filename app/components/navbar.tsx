@@ -8,15 +8,15 @@ export default function Navbar() {
     { name: "Search", href: "/search" },
     { name: "Map", href: "/map" },
     { name: "Dashboard", href: "/dashboard" },
-    { name: "Add", href: "/table" },
-    { name: "Delete", href: "" },
-    {name: "Update", href: ""},
-    {name: "Documentation", href: "/about"},
+    { name: "Add", href: "/add" },
+    { name: "Delete", href: "/delete" },
+    {name: "Update", href: "/update"},
+    {name: "Documentation", href: "/documentation"},
   ];
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-white backdrop-blur-md shadow-sm">
-      <div className="mx-auto flex h-20 items-center justify-end px-6 md:px-12 max-w-7xl">
+      <div className="mx-auto flex h-20 items-center justify-center px-6 md:px-12 max-w-7xl">
         
         {/* Navigation Links */}
         <div className="flex flex-wrap items-center gap-1 sm:gap-2">
