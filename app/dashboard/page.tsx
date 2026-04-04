@@ -9,7 +9,7 @@ export default function DashboardPage() {
         <div className="page-card">
           <h1 className="page-title">Dashboard</h1>
           <p className="page-text">
-            This page shows simple summary information from database.
+            This page shows simple summary information from the database.
           </p>
 
           <div className="info-box">

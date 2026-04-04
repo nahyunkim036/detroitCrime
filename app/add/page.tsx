@@ -20,7 +20,6 @@ export default function AddPage() {
           </div>
 
           <button className="main-button">Add</button>
-
         </div>
       </main>
 
