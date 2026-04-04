@@ -1,20 +1,38 @@
-import Image from "next/image";
 import Navbar from "./components/navbar";
 
 export default function Home() {
   return (
-    <div className=" bg-custom min-h-screen flex flex-col items-center justify-start">
-      <Navbar/>
+    <div className="bg-custom page-wrapper">
+      <Navbar />
 
-      <main className="flex flex-col items-center text-center gap-10 max-w-2xl px-6 py-12">
-        <div className="bg-white backdrop-blur-md p-8 rounded-[40px] w-full sm:w-[420px] min-h-[550px] flex flex-col justify-center relative overflow-hidden">
-          <h1 className="text-4xl font-bold mb-6 text-gray-800">
-            Detroit Crime Dashboard
-          </h1>
+      <main className="page-container">
+        <div className="page-card">
+          <h1 className="page-title">Detroit Crime Home</h1>
+          <p className="page-text">
+            This project is a web-based database application for exploring crime
+            data in Detroit.
+          </p>
+
+          <div className="info-box">
+            <h2 className="section-title">About Our Project</h2>
+            <p className="page-text">
+              Users can view crime information, manage records, and check simple
+              summary data through different pages in the app.
+            </p>
+          </div>
+
+          <div className="info-box">
+            <h2 className="section-title">Dataset</h2>
+            <p className="page-text">
+              The dataset comes from the Detroit Open Data Portal.
+            </p>
+          </div>
         </div>
       </main>
 
-    
+      <footer className="page-footer">
+        Detroit Crime Dashboard | CSC 4710 | Nahyun Kim, Jordan Cruz
+      </footer>
     </div>
   );
 }

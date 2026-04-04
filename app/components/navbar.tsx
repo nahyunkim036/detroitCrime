@@ -8,10 +8,10 @@ export default function Navbar() {
     { name: "Search", href: "/search" },
     { name: "Map", href: "/map" },
     { name: "Dashboard", href: "/dashboard" },
-    { name: "Add", href: "/table" },
-    { name: "Delete", href: "" },
-    {name: "Update", href: ""},
-    {name: "Documentation", href: "/about"},
+    { name: "Add", href: "/add" },
+    { name: "Delete", href: "/delete" },
+    { name: "Update", href: "/update" },
+    { name: "Documentation", href: "/documentation" },
   ];
 
   return (

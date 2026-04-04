@@ -26,9 +26,158 @@ body {
 }
 
 .bg-custom {
-  background-image: url('/DBMS background image.png');
+  background-image: url("/DBMS background image.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed; /* 🔥 THIS is the key */
+  background-attachment: fixed;
+}
+
+.page-wrapper {
+  min-height: 100vh;
+}
+
+.page-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+.page-card {
+  background: white;
+  border-radius: 28px;
+  padding: 32px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.page-title {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 12px;
+}
+
+.page-text {
+  color: #4b5563;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+.section-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1f2937;
+  margin-bottom: 10px;
+}
+
+.form-group {
+  display: grid;
+  gap: 14px;
+}
+
+.two-column {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.form-input {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font-size: 16px;
+  color: #111827;
+  background: #ffffff;
+}
+
+.form-input::placeholder {
+  color: #9ca3af;
+}
+
+.main-button {
+  margin-top: 18px;
+  background: #0f766e;
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 12px 22px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.main-button:hover {
+  background: #115e59;
+}
+
+.delete-button {
+  margin-top: 18px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 12px 22px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.delete-button:hover {
+  background: #b91c1c;
+}
+
+.update-button {
+  margin-top: 18px;
+  background: #d97706;
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  padding: 12px 22px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.update-button:hover {
+  background: #b45309;
+}
+
+.note-text {
+  margin-top: 14px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.warning-text {
+  margin-top: 14px;
+  font-size: 14px;
+  color: #dc2626;
+}
+
+.info-box {
+  background: #f9fafb;
+  border-radius: 18px;
+  padding: 18px;
+  margin-top: 16px;
+}
+
+.page-footer {
+  margin-top: 40px;
+  background: white;
+  text-align: center;
+  padding: 16px;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .two-column {
+    grid-template-columns: 1fr;
+  }
+
+  .page-title {
+    font-size: 28px;
+  }
+
+  .page-card {
+    padding: 24px;
+  }
 }
