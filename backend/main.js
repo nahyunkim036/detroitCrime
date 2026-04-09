@@ -8,21 +8,32 @@ const conn = new Client({
     host: "localhost",
     user: "postgres",
     port: 5432,
-    password: "password",
-    database: "detroit_crime"
+    password: "Jc19905034!",
+    database: "DetroitCrime_Clean"
 })
 
 // connecting to database ^
 
-conn.connect().then(()=> console.log("connected"))
+conn.connect()
+  .then(() => {
+    console.log('Database connected');
+
+    app.listen(3000, () => {
+      console.log('Server is running on port 3000');
+    });
+  })
+  .catch((err) => {
+    console.error('Database connection failed:');
+    console.error(err.message);
+  });
 
 app.post('/postData', (req, res) => {
 
-    const {offense_type_id, offense_cetegory, offense_description} =req.body
+    const {offense_type_id, offense_category, offense_description} =req.body
     
     const insert_query = `INSERT INTO crime_data (offense_type_id, offense_category, offense_description) VALUES ($1, $2, $3)`
 
-    conn.query(insert_query, [offense_type_id, offense_cetegory, offense_description],(err, result) => {
+    conn.query(insert_query, [offense_type_id, offense_category, offense_description],(err, result) => {
         if(err){
             res.send(err)
         } else {
@@ -32,9 +43,6 @@ app.post('/postData', (req, res) => {
     })
 })
 
-app.listen(3000, () => {
-    console.log("Server is running on port 3000")
-})
 
 //practicing how to post data to database using node and express ^
 
