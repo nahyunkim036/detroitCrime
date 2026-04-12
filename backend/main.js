@@ -124,3 +124,32 @@ app.delete('/deleteData/:incident_entry_id', (req, res) => {
         }
     });
 });
+
+
+app.put('/updateData/:incident_entry_id', (req, res) => {
+    const { incident_entry_id } = req.params;
+    const { status_id, police_precinct, location_id, offense_type_id } = req.body;
+
+    const update_query = `
+        UPDATE crime_incidents
+        SET status_id = $1,
+            police_precinct = $2,
+            location_id = $3,
+            offense_type_id = $4
+        WHERE incident_entry_id = $5
+    `;
+
+    conn.query(
+        update_query,
+        [status_id, police_precinct, location_id, offense_type_id, incident_entry_id],
+        (err, result) => {
+            if (err) {
+                res.status(500).json({ message: "Failed to update record", error: err.message });
+            } else if (result.rowCount === 0) {
+                res.status(404).json({ message: "No record found with that ID" });
+            } else {
+                res.status(200).json({ message: "Record updated successfully" });
+            }
+        }
+    );
+});
