@@ -9,10 +9,10 @@ app.use(cors());
 
 const conn = new Client({
     host: "localhost",
-    user: "postgres",
+    user: "kimnahyun",
     port: 5432,
-    password: "Jc19905034.",
-    database: "DetroitCrime_Clean"
+    password: "5178",
+    database: "detroit_crime_db"
 })
 
 // connecting to database ^
@@ -21,7 +21,7 @@ conn.connect()
   .then(() => {
     console.log('Database connected');
 
-    app.listen(5000, () => {
+    app.listen(5000, '127.0.0.1', () => {
       console.log('Server is running on port 5000');
     });
   })
@@ -51,7 +51,7 @@ app.post('/postData', (req, res) => {
 
 app.get('/fetchData',(req,res)=>{
 
-    const fetch_query="Select * from crime_incidents"
+    const fetch_query="Select * from crime_incidents limit 10"
     conn.query(fetch_query,(err,result)=>{
         if(err){
             res.send(err)
@@ -105,4 +105,3 @@ app.get('/searchData', (req, res) => {
 });
 
 //setting up search functionality for the crime incidents table, allowing users to filter results based on various criteria such as incident entry ID, case ID, offense type ID, and location ID.
-
