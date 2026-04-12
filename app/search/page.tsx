@@ -19,8 +19,7 @@ const handleSearch = async () => {
   if (offenseTypeId) params.append("offense_type_id", offenseTypeId);
   if (locationId) params.append("location_id", locationId);
 
-  const url = `http://localhost:5000/searchData?${params.toString()}`;
-
+  const url = `http://127.0.0.1:5000/searchData?${params.toString()}`;
   console.log("Search button clicked");
   console.log("Request URL:", url);
 

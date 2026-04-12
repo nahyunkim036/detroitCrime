@@ -9,10 +9,10 @@ app.use(cors());
 
 const conn = new Client({
     host: "localhost",
-    user: "postgres",
+    user: "kimnahyun",
     port: 5432,
-    password: "Jc19905034.",
-    database: "DetroitCrime_Clean"
+    password: "5178",
+    database: "detroit_crime_db"
 })
 
 // connecting to database ^
@@ -21,7 +21,7 @@ conn.connect()
   .then(() => {
     console.log('Database connected');
 
-    app.listen(5000, () => {
+    app.listen(5000, '127.0.0.1', () => {
       console.log('Server is running on port 5000');
     });
   })
@@ -37,11 +37,11 @@ app.post('/postData', (req, res) => {
     const insert_query = `INSERT INTO crime_incidents (incident_entry_id, case_id, crime_id, report_number, offense_type_id) VALUES ($1, $2, $3, $4, $5)`
 
     conn.query(insert_query, [incident_entry_id, case_id, crime_id, report_number, offense_type_id],(err, result) => {
-        if(err){
-            res.send(err)
+        if (err) {
+            console.error("postData error:", err);
+            res.status(500).json({ message: "Failed to add record", error: err.message });
         } else {
-            console.log(result)
-            res.send("POSTED DATA")
+            res.status(201).json({ message: "Record added successfully" });
         }
     })
 })
@@ -51,7 +51,7 @@ app.post('/postData', (req, res) => {
 
 app.get('/fetchData',(req,res)=>{
 
-    const fetch_query="Select * from crime_incidents"
+    const fetch_query="Select * from crime_incidents limit 10"
     conn.query(fetch_query,(err,result)=>{
         if(err){
             res.send(err)
@@ -106,3 +106,50 @@ app.get('/searchData', (req, res) => {
 
 //setting up search functionality for the crime incidents table, allowing users to filter results based on various criteria such as incident entry ID, case ID, offense type ID, and location ID.
 
+app.delete('/deleteData/:incident_entry_id', (req, res) => {
+    const { incident_entry_id } = req.params;
+
+    const delete_query = `
+        DELETE FROM crime_incidents
+        WHERE incident_entry_id = $1
+    `;
+
+    conn.query(delete_query, [incident_entry_id], (err, result) => {
+        if (err) {
+            res.status(500).json({ message: "Failed to delete record", error: err.message });
+        } else if (result.rowCount === 0) {
+            res.status(404).json({ message: "No record found with that ID" });
+        } else {
+            res.status(200).json({ message: "Record deleted successfully" });
+        }
+    });
+});
+
+
+app.put('/updateData/:incident_entry_id', (req, res) => {
+    const { incident_entry_id } = req.params;
+    const { status_id, police_precinct, location_id, offense_type_id } = req.body;
+
+    const update_query = `
+        UPDATE crime_incidents
+        SET status_id = $1,
+            police_precinct = $2,
+            location_id = $3,
+            offense_type_id = $4
+        WHERE incident_entry_id = $5
+    `;
+
+    conn.query(
+        update_query,
+        [status_id, police_precinct, location_id, offense_type_id, incident_entry_id],
+        (err, result) => {
+            if (err) {
+                res.status(500).json({ message: "Failed to update record", error: err.message });
+            } else if (result.rowCount === 0) {
+                res.status(404).json({ message: "No record found with that ID" });
+            } else {
+                res.status(200).json({ message: "Record updated successfully" });
+            }
+        }
+    );
+});
