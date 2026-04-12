@@ -7,11 +7,21 @@ export default function Home() {
     <div className=" bg-custom min-h-screen flex flex-col items-center justify-start">
       <Navbar/>
 
-      <main className="flex flex-col items-center text-center gap-10 max-w-2xl px-6 py-12">
-        <div className="bg-white backdrop-blur-md p-8 rounded-[40px] w-full sm:w-[420px] min-h-[550px] flex flex-col justify-center relative overflow-hidden">
-          <h1 className="text-4xl font-bold mb-6 text-gray-800">
-            search
-          </h1>
+      <main className="page-container">
+        <div className="page-card">
+          <h1 className="page-title">Add Record</h1>
+          <p className="page-text">
+            This page is for adding a new crime record.
+          </p>
+
+          <div className="form-group">
+            <input className="form-input" placeholder="Incident Entry ID" />
+            <input className="form-input" placeholder="Case ID" />
+            <input className="form-input" placeholder="Offense Type ID" />
+            <input className="form-input" placeholder="Location ID" />
+          </div>
+
+          <button className="main-button">Add</button>
         </div>
       </main>
 
