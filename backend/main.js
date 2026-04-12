@@ -105,3 +105,22 @@ app.get('/searchData', (req, res) => {
 });
 
 //setting up search functionality for the crime incidents table, allowing users to filter results based on various criteria such as incident entry ID, case ID, offense type ID, and location ID.
+
+app.delete('/deleteData/:incident_entry_id', (req, res) => {
+    const { incident_entry_id } = req.params;
+
+    const delete_query = `
+        DELETE FROM crime_incidents
+        WHERE incident_entry_id = $1
+    `;
+
+    conn.query(delete_query, [incident_entry_id], (err, result) => {
+        if (err) {
+            res.status(500).json({ message: "Failed to delete record", error: err.message });
+        } else if (result.rowCount === 0) {
+            res.status(404).json({ message: "No record found with that ID" });
+        } else {
+            res.status(200).json({ message: "Record deleted successfully" });
+        }
+    });
+});
