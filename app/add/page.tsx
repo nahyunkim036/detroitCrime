@@ -88,7 +88,11 @@ export default function AddPage() {
             />
           </div>
 
-          <button className="main-button">Add</button>
+          <button className="main-button" onClick={handleAdd}>
+            Add
+          </button>
+
+          {message && <p className="note-text">{message}</p>}
         </div>
       </main>
 

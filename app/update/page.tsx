@@ -99,7 +99,7 @@ export default function UpdatePage() {
             Save Changes
           </button>
 
-          <p className="note-text">{message}</p>
+          {message && <p className="note-text">{message}</p>}
         </div>
       </main>
 

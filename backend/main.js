@@ -37,11 +37,11 @@ app.post('/postData', (req, res) => {
     const insert_query = `INSERT INTO crime_incidents (incident_entry_id, case_id, crime_id, report_number, offense_type_id) VALUES ($1, $2, $3, $4, $5)`
 
     conn.query(insert_query, [incident_entry_id, case_id, crime_id, report_number, offense_type_id],(err, result) => {
-        if(err){
-            res.send(err)
+        if (err) {
+            console.error("postData error:", err);
+            res.status(500).json({ message: "Failed to add record", error: err.message });
         } else {
-            console.log(result)
-            res.send("POSTED DATA")
+            res.status(201).json({ message: "Record added successfully" });
         }
     })
 })

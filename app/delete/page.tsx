@@ -53,6 +53,8 @@ export default function DeletePage() {
             Delete
           </button>
 
+          {message && <p className="warning-text">{message}</p>}
+
           <p className="warning-text">
             Please check the ID before deleting the record.
           </p>
