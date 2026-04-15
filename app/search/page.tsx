@@ -1,35 +1,29 @@
 "use client";
 
 import Navbar from "../components/navbar";
+import Footer from "../components/footer";
 import { useState } from "react";
 
 export default function SearchPage() {
   const [incidentEntryId, setIncidentEntryId] = useState("");
-  const [caseId, setCaseId] = useState("");
-  const [offenseTypeId, setOffenseTypeId] = useState("");
-  const [locationId, setLocationId] = useState("");
-  const [results, setResults] = useState([]);
+  const [crimeKeyword, setCrimeKeyword] = useState("");
+  const [neighborhood, setNeighborhood] = useState("");
+  const [policePrecinct, setPolicePrecinct] = useState("");
+  const [results, setResults] = useState<any[]>([]);
 
   const handleSearch = async () => {
     const params = new URLSearchParams();
 
     if (incidentEntryId) params.append("incident_entry_id", incidentEntryId);
-    if (caseId) params.append("case_id", caseId);
-    if (offenseTypeId) params.append("offense_type_id", offenseTypeId);
-    if (locationId) params.append("location_id", locationId);
+    if (crimeKeyword) params.append("crime_keyword", crimeKeyword);
+    if (neighborhood) params.append("neighborhood", neighborhood);
+    if (policePrecinct) params.append("police_precinct", policePrecinct);
 
-    const url = `http://localhost:5000/searchData?${params.toString()}`;
-
-    console.log("Search button clicked");
-    console.log("Request URL:", url);
+    const url = `http://127.0.0.1:5000/searchData?${params.toString()}`;
 
     try {
       const response = await fetch(url);
-      console.log("Response object:", response);
-
       const data = await response.json();
-      console.log("Returned data:", data);
-
       setResults(data);
     } catch (error) {
       console.error("Search failed:", error);
@@ -44,7 +38,8 @@ export default function SearchPage() {
         <div className="page-card">
           <h1 className="page-title">Search Record</h1>
           <p className="page-text">
-            This page is for searching crime records.
+            Search crime records using simple filters such as crime keyword,
+            neighborhood, or police precinct.
           </p>
 
           <div className="search-section">
@@ -59,21 +54,21 @@ export default function SearchPage() {
               />
               <input
                 className="form-input"
-                placeholder="Case ID"
-                value={caseId}
-                onChange={(e) => setCaseId(e.target.value)}
+                placeholder="Crime Keyword (ex. assault, theft)"
+                value={crimeKeyword}
+                onChange={(e) => setCrimeKeyword(e.target.value)}
               />
               <input
                 className="form-input"
-                placeholder="Offense Type ID"
-                value={offenseTypeId}
-                onChange={(e) => setOffenseTypeId(e.target.value)}
+                placeholder="Neighborhood"
+                value={neighborhood}
+                onChange={(e) => setNeighborhood(e.target.value)}
               />
               <input
                 className="form-input"
-                placeholder="Location ID"
-                value={locationId}
-                onChange={(e) => setLocationId(e.target.value)}
+                placeholder="Police Precinct"
+                value={policePrecinct}
+                onChange={(e) => setPolicePrecinct(e.target.value)}
               />
             </div>
 
@@ -87,14 +82,29 @@ export default function SearchPage() {
 
             {results.length > 0 ? (
               <div className="results-container">
+                <p className="page-text" style={{ marginBottom: "12px" }}>
+                  {results.length} record(s) found.
+                </p>
+
                 {results.map((record: any) => (
                   <div key={record.incident_entry_id} className="info-box">
-                    <p><strong>Incident Entry ID:</strong> {record.incident_entry_id}</p>
-                    <p><strong>Case ID:</strong> {record.case_id}</p>
-                    <p><strong>Crime ID:</strong> {record.crime_id}</p>
-                    <p><strong>Report Number:</strong> {record.report_number}</p>
-                    <p><strong>Offense Type ID:</strong> {record.offense_type_id}</p>
-                    <p><strong>Location ID:</strong> {record.location_id}</p>
+                    <h3 className="section-title" style={{ marginBottom: "8px" }}>
+                      {record.offense_category || "Unknown Crime Type"}
+                    </h3>
+
+                    <p><strong>Description:</strong> {record.offense_description || "N/A"}</p>
+                    <p><strong>Status:</strong> {record.case_status || "N/A"}</p>
+                    <p><strong>Precinct:</strong> {record.police_precinct || "N/A"}</p>
+                    <p><strong>Neighborhood:</strong> {record.neighborhood || "N/A"}</p>
+                    <p><strong>Nearest Intersection:</strong> {record.nearest_intersection || "N/A"}</p>
+                    <p><strong>Occurred At:</strong> {record.incident_occurred_at || "N/A"}</p>
+
+                    <div style={{ marginTop: "12px", fontSize: "14px", color: "#6b7280" }}>
+                      <p><strong>Incident Entry ID:</strong> {record.incident_entry_id}</p>
+                      <p><strong>Case ID:</strong> {record.case_id || "N/A"}</p>
+                      <p><strong>Crime ID:</strong> {record.crime_id || "N/A"}</p>
+                      <p><strong>Report Number:</strong> {record.report_number || "N/A"}</p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -109,9 +119,7 @@ export default function SearchPage() {
         </div>
       </main>
 
-      <footer className="page-footer">
-        Detroit Crime Dashboard | Search Page
-      </footer>
+      <Footer />
     </div>
   );
 }

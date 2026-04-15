@@ -35,12 +35,16 @@ body {
 
 .page-wrapper {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .page-container {
   max-width: 900px;
   margin: 0 auto;
   padding: 48px 24px;
+  flex: 1;
+  width: 100%;
 }
 
 .page-card {

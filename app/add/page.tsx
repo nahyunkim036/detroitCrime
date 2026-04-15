@@ -55,7 +55,7 @@ export default function AddIncidentPage() {
     if (payload.incident_day_of_week) payload.incident_day_of_week = Number(payload.incident_day_of_week);
 
     try {
-      const response = await fetch("http://localhost:5000/postData", {
+      const response = await fetch("http://127.0.0.1:5000/postData", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -70,7 +70,7 @@ export default function AddIncidentPage() {
         return;
       }
 
-      setSuccessMessage("Incident added successfully.");
+      setSuccessMessage(data.message || "Incident added successfully.");
       setLastSubmitted(payload);
 
       setFormData({

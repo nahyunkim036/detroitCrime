@@ -1,4 +1,5 @@
 import Navbar from "../components/navbar";
+import Footer from "../components/footer";
 
 export default function DocumentationPage() {
   return (
@@ -41,9 +42,7 @@ export default function DocumentationPage() {
         </div>
       </main>
 
-      <footer className="page-footer">
-        Detroit Crime Dashboard | Documentation Page
-      </footer>
+      <Footer />
     </div>
   );
 }
