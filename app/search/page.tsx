@@ -1,6 +1,7 @@
 "use client";
 
 import Navbar from "../components/navbar";
+import Footer from "../components/footer";
 import { useState } from "react";
 
 export default function SearchPage() {
@@ -109,9 +110,7 @@ export default function SearchPage() {
         </div>
       </main>
 
-      <footer className="page-footer">
-        Detroit Crime Dashboard | Search Page
-      </footer>
+      <Footer />
     </div>
   );
 }

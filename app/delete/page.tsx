@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import Navbar from "../components/navbar";
+import Footer from "../components/footer";
 
 export default function DeletePage() {
   const [incidentEntryId, setIncidentEntryId] = useState("");
@@ -48,22 +49,27 @@ export default function DeletePage() {
               onChange={(e) => setIncidentEntryId(e.target.value)}
             />
           </div>
+          <div className="info-box">
+            <h2 className="section-title">Before You Delete</h2>
+            <p className="page-text">
+              Make sure the Incident Entry ID is correct before removing the record.
+            </p>
+          </div>
 
           <button className="delete-button" onClick={handleDelete}>
             Delete
           </button>
+          
 
-          {message && <p className="warning-text">{message}</p>}
-
-          <p className="warning-text">
-            Please check the ID before deleting the record.
-          </p>
+          {message ? (
+            <p className="warning-text">{message}</p>
+          ) : (
+            <p className="warning-text">Please check the ID before deleting the record.</p>
+          )}
         </div>
       </main>
 
-      <footer className="page-footer">
-        Detroit Crime Dashboard | Delete Page
-      </footer>
+      <Footer />
     </div>
   );
 }

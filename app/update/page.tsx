@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Navbar from "../components/navbar";
+import Footer from "../components/footer";
 
 export default function UpdatePage() {
   const [incidentEntryId, setIncidentEntryId] = useState("");
@@ -99,13 +100,15 @@ export default function UpdatePage() {
             Save Changes
           </button>
 
-          {message && <p className="note-text">{message}</p>}
+          {message ? (
+            <p className="note-text">{message}</p>
+          ) : (
+            <p className="note-text">Update the selected fields and save the changes.</p>
+          )}
         </div>
       </main>
 
-      <footer className="page-footer">
-        Detroit Crime Dashboard | Update Page
-      </footer>
+      <Footer />
     </div>
   );
 }
