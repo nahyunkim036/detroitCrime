@@ -125,7 +125,7 @@ app.get('/fetchData',(req,res)=>{
 //practicing how to fetch data to database using node and express ^
 
 app.get('/searchData', (req, res) => {
-    const { incident_entry_id, case_id, offense_type_id, location_id } = req.query;
+    const { incident_entry_id, crime_keyword, neighborhood, police_precinct } = req.query;
 
     let search_query = `
         SELECT
@@ -153,45 +153,53 @@ app.get('/searchData', (req, res) => {
             ON ci.location_id = l.location_id
         WHERE 1=1
     `;
+
     let values = [];
     let count = 1;
 
-    if (incident_entry_id) {
-        search_query += ` AND incident_entry_id = $${count}`;
-        values.push(incident_entry_id);
+    if (incident_entry_id && String(incident_entry_id).trim() !== "") {
+        search_query += ` AND ci.incident_entry_id = $${count}`;
+        values.push(String(incident_entry_id).trim());
         count++;
     }
 
-    if (case_id) {
-        search_query += ` AND case_id = $${count}`;
-        values.push(case_id);
+    if (crime_keyword && String(crime_keyword).trim() !== "") {
+        search_query += ` AND (
+            ot.offense_category ILIKE $${count}
+            OR ot.offense_description ILIKE $${count}
+        )`;
+        values.push(`%${String(crime_keyword).trim()}%`);
         count++;
     }
 
-    if (offense_type_id) {
-        search_query += ` AND offense_type_id = $${count}`;
-        values.push(offense_type_id);
+    if (neighborhood && String(neighborhood).trim() !== "") {
+        search_query += ` AND l.neighborhood ILIKE $${count}`;
+        values.push(`%${String(neighborhood).trim()}%`);
         count++;
     }
 
-    if (location_id) {
-        search_query += ` AND location_id = $${count}`;
-        values.push(location_id);
+    if (police_precinct && String(police_precinct).trim() !== "") {
+        search_query += ` AND ci.police_precinct = $${count}`;
+        values.push(String(police_precinct).trim());
         count++;
     }
 
-    search_query += ` ORDER BY ci.incident_occurred_at DESC NULLS LAST`;
+    search_query += ` ORDER BY ci.incident_occurred_at DESC NULLS LAST LIMIT 20`;
+
+    console.log("search query:", search_query);
+    console.log("search values:", values);
 
     conn.query(search_query, values, (err, result) => {
         if (err) {
             console.error("searchData error:", err);
-            res.status(500).json({
+            return res.status(500).json({
                 message: "Failed to search records",
                 error: err.message
             });
-        } else {
-            res.json(result.rows);
         }
+
+        console.log("rows found:", result.rows.length);
+        res.json(result.rows);
     });
 });
 

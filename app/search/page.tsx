@@ -6,31 +6,24 @@ import { useState } from "react";
 
 export default function SearchPage() {
   const [incidentEntryId, setIncidentEntryId] = useState("");
-  const [caseId, setCaseId] = useState("");
-  const [offenseTypeId, setOffenseTypeId] = useState("");
-  const [locationId, setLocationId] = useState("");
+  const [crimeKeyword, setCrimeKeyword] = useState("");
+  const [neighborhood, setNeighborhood] = useState("");
+  const [policePrecinct, setPolicePrecinct] = useState("");
   const [results, setResults] = useState<any[]>([]);
 
   const handleSearch = async () => {
     const params = new URLSearchParams();
 
     if (incidentEntryId) params.append("incident_entry_id", incidentEntryId);
-    if (caseId) params.append("case_id", caseId);
-    if (offenseTypeId) params.append("offense_type_id", offenseTypeId);
-    if (locationId) params.append("location_id", locationId);
+    if (crimeKeyword) params.append("crime_keyword", crimeKeyword);
+    if (neighborhood) params.append("neighborhood", neighborhood);
+    if (policePrecinct) params.append("police_precinct", policePrecinct);
 
     const url = `http://127.0.0.1:5000/searchData?${params.toString()}`;
 
-    console.log("Search button clicked");
-    console.log("Request URL:", url);
-
     try {
       const response = await fetch(url);
-      console.log("Response object:", response);
-
       const data = await response.json();
-      console.log("Returned data:", data);
-
       setResults(data);
     } catch (error) {
       console.error("Search failed:", error);
@@ -45,7 +38,8 @@ export default function SearchPage() {
         <div className="page-card">
           <h1 className="page-title">Search Record</h1>
           <p className="page-text">
-            This page is for searching crime records.
+            Search crime records using simple filters such as crime keyword,
+            neighborhood, or police precinct.
           </p>
 
           <div className="search-section">
@@ -60,21 +54,21 @@ export default function SearchPage() {
               />
               <input
                 className="form-input"
-                placeholder="Case ID"
-                value={caseId}
-                onChange={(e) => setCaseId(e.target.value)}
+                placeholder="Crime Keyword (ex. assault, theft)"
+                value={crimeKeyword}
+                onChange={(e) => setCrimeKeyword(e.target.value)}
               />
               <input
                 className="form-input"
-                placeholder="Offense Type ID"
-                value={offenseTypeId}
-                onChange={(e) => setOffenseTypeId(e.target.value)}
+                placeholder="Neighborhood"
+                value={neighborhood}
+                onChange={(e) => setNeighborhood(e.target.value)}
               />
               <input
                 className="form-input"
-                placeholder="Location ID"
-                value={locationId}
-                onChange={(e) => setLocationId(e.target.value)}
+                placeholder="Police Precinct"
+                value={policePrecinct}
+                onChange={(e) => setPolicePrecinct(e.target.value)}
               />
             </div>
 
