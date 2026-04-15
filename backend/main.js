@@ -251,3 +251,39 @@ app.put('/updateData/:incident_entry_id', (req, res) => {
         }
     );
 });
+
+//---------------map endpoint----------------
+app.get('/mapData', (req, res) => {
+    const map_query = `
+        SELECT
+            ci.incident_entry_id,
+            ci.incident_occurred_at,
+            ci.police_precinct,
+            ot.offense_category,
+            ot.offense_description,
+            l.latitude,
+            l.longitude,
+            l.neighborhood
+        FROM crime_incidents ci
+        JOIN locations l
+            ON ci.location_id = l.location_id
+        LEFT JOIN offense_types ot
+            ON ci.offense_type_id = ot.offense_type_id
+        WHERE l.latitude IS NOT NULL
+          AND l.longitude IS NOT NULL
+        ORDER BY ci.incident_occurred_at DESC NULLS LAST
+        LIMIT 200
+    `;
+
+    conn.query(map_query, (err, result) => {
+        if (err) {
+            console.error("mapData error:", err);
+            res.status(500).json({
+                message: "Failed to load map data",
+                error: err.message
+            });
+        } else {
+            res.json(result.rows);
+        }
+    });
+});

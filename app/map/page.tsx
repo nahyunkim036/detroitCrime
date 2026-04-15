@@ -1,21 +1,30 @@
-import Image from "next/image";
+"use client";
+
+import dynamic from "next/dynamic";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 
-export default function Home() {
-  return (
-    <div className=" bg-custom min-h-screen flex flex-col items-center justify-start">
-      <Navbar/>
+const CrimeMap = dynamic(() => import("./CrimeMap"), {
+  ssr: false,
+});
 
-      <main className="flex flex-col items-center text-center gap-10 max-w-2xl px-6 py-12">
-        <div className="bg-white backdrop-blur-md p-8 rounded-[40px] w-full sm:w-[420px] min-h-[550px] flex flex-col justify-center relative overflow-hidden">
-          <h1 className="text-4xl font-bold mb-6 text-gray-800">
-            map
-          </h1>
+export default function MapPage() {
+  return (
+    <div className="bg-custom page-wrapper">
+      <Navbar />
+
+      <main className="page-container">
+        <div className="page-card">
+          <h1 className="page-title">Crime Map</h1>
+          <p className="page-text">
+            This page shows crime locations on the map using latitude and longitude data.
+          </p>
+
+          <CrimeMap />
         </div>
       </main>
 
-    <Footer/>
+      <Footer />
     </div>
   );
 }
