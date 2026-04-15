@@ -168,6 +168,28 @@ body {
   color: #6b7280;
 }
 
+.search-section {
+  margin-top: 24px;
+  margin-bottom: 32px;
+  padding: 24px;
+  border-radius: 18px;
+  background: #f9fafb;
+}
+
+.results-section {
+  margin-top: 16px;
+  padding: 24px;
+  border-radius: 18px;
+  background: #f9fafb;
+  color: #111827
+}
+
+.empty-results {
+  padding: 16px;
+  border-radius: 14px;
+  background: #ffffff;
+}
+
 @media (max-width: 768px) {
   .two-column {
     grid-template-columns: 1fr;

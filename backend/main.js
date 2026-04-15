@@ -41,7 +41,10 @@ app.post('/postData', (req, res) => {
             console.error("postData error:", err);
             res.status(500).json({ message: "Failed to add record", error: err.message });
         } else {
-            res.status(201).json({ message: "Record added successfully" });
+            console.log(result);
+            res.status(201).json({
+                message: "Incident added successfully"
+            });
         }
     })
 })
@@ -62,7 +65,7 @@ app.get('/fetchData',(req,res)=>{
     })
 })
 
-//practicing how to fetch data from database using node and express ^
+//practicing how to fetch data to database using node and express ^
 
 app.get('/searchData', (req, res) => {
     const { incident_entry_id, case_id, offense_type_id, location_id } = req.query;
@@ -124,7 +127,6 @@ app.delete('/deleteData/:incident_entry_id', (req, res) => {
         }
     });
 });
-
 
 app.put('/updateData/:incident_entry_id', (req, res) => {
     const { incident_entry_id } = req.params;
