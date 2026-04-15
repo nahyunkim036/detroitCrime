@@ -31,23 +31,80 @@ conn.connect()
   });
 
 app.post('/postData', (req, res) => {
+    const {
+        incident_entry_id,
+        case_id,
+        crime_id,
+        report_number,
+        offense_type_id,
+        location_id,
+        status_id,
+        scout_car_area,
+        police_precinct,
+        incident_occurred_at,
+        incident_time,
+        incident_year,
+        incident_hour_of_day,
+        incident_day_of_week
+    } = req.body;
 
-    const {incident_entry_id, case_id, crime_id, report_number, offense_type_id} = req.body
-    
-    const insert_query = `INSERT INTO crime_incidents (incident_entry_id, case_id, crime_id, report_number, offense_type_id) VALUES ($1, $2, $3, $4, $5)`
+    const insert_query = `
+        INSERT INTO crime_incidents (
+            incident_entry_id,
+            case_id,
+            crime_id,
+            report_number,
+            offense_type_id,
+            location_id,
+            status_id,
+            scout_car_area,
+            police_precinct,
+            incident_occurred_at,
+            incident_time,
+            incident_year,
+            incident_hour_of_day,
+            incident_day_of_week
+        ) VALUES (
+            $1, $2, $3, $4, $5,
+            $6, $7, $8, $9, $10,
+            $11, $12, $13, $14
+        )
+    `;
 
-    conn.query(insert_query, [incident_entry_id, case_id, crime_id, report_number, offense_type_id],(err, result) => {
-        if (err) {
-            console.error("postData error:", err);
-            res.status(500).json({ message: "Failed to add record", error: err.message });
-        } else {
-            console.log(result);
-            res.status(201).json({
-                message: "Incident added successfully"
-            });
+    conn.query(
+        insert_query,
+        [
+            incident_entry_id,
+            case_id,
+            crime_id,
+            report_number,
+            offense_type_id,
+            location_id,
+            status_id,
+            scout_car_area,
+            police_precinct,
+            incident_occurred_at,
+            incident_time,
+            incident_year,
+            incident_hour_of_day,
+            incident_day_of_week
+        ],
+        (err, result) => {
+            if (err) {
+                console.error("postData error:", err);
+                res.status(500).json({
+                    message: "Failed to add record",
+                    error: err.message
+                });
+            } else {
+                console.log(result);
+                res.status(201).json({
+                    message: "Incident added successfully"
+                });
+            }
         }
-    })
-})
+    );
+});
 
 
 //practicing how to post data to database using node and express ^
@@ -70,7 +127,32 @@ app.get('/fetchData',(req,res)=>{
 app.get('/searchData', (req, res) => {
     const { incident_entry_id, case_id, offense_type_id, location_id } = req.query;
 
-    let search_query = 'SELECT * FROM crime_incidents WHERE 1=1';
+    let search_query = `
+        SELECT
+            ci.incident_entry_id,
+            ci.case_id,
+            ci.crime_id,
+            ci.report_number,
+            ci.offense_type_id,
+            ci.location_id,
+            ci.status_id,
+            ci.police_precinct,
+            ci.incident_occurred_at,
+            ci.incident_time,
+            ot.offense_category,
+            ot.offense_description,
+            cs.case_status,
+            l.neighborhood,
+            l.nearest_intersection
+        FROM crime_incidents ci
+        LEFT JOIN offense_types ot
+            ON ci.offense_type_id = ot.offense_type_id
+        LEFT JOIN case_statuses cs
+            ON ci.status_id = cs.status_id
+        LEFT JOIN locations l
+            ON ci.location_id = l.location_id
+        WHERE 1=1
+    `;
     let values = [];
     let count = 1;
 
@@ -98,11 +180,17 @@ app.get('/searchData', (req, res) => {
         count++;
     }
 
+    search_query += ` ORDER BY ci.incident_occurred_at DESC NULLS LAST`;
+
     conn.query(search_query, values, (err, result) => {
         if (err) {
-            res.send(err);
+            console.error("searchData error:", err);
+            res.status(500).json({
+                message: "Failed to search records",
+                error: err.message
+            });
         } else {
-            res.send(result.rows);
+            res.json(result.rows);
         }
     });
 });

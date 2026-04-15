@@ -9,7 +9,7 @@ export default function SearchPage() {
   const [caseId, setCaseId] = useState("");
   const [offenseTypeId, setOffenseTypeId] = useState("");
   const [locationId, setLocationId] = useState("");
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<any[]>([]);
 
   const handleSearch = async () => {
     const params = new URLSearchParams();
@@ -88,14 +88,29 @@ export default function SearchPage() {
 
             {results.length > 0 ? (
               <div className="results-container">
+                <p className="page-text" style={{ marginBottom: "12px" }}>
+                  {results.length} record(s) found.
+                </p>
+
                 {results.map((record: any) => (
                   <div key={record.incident_entry_id} className="info-box">
-                    <p><strong>Incident Entry ID:</strong> {record.incident_entry_id}</p>
-                    <p><strong>Case ID:</strong> {record.case_id}</p>
-                    <p><strong>Crime ID:</strong> {record.crime_id}</p>
-                    <p><strong>Report Number:</strong> {record.report_number}</p>
-                    <p><strong>Offense Type ID:</strong> {record.offense_type_id}</p>
-                    <p><strong>Location ID:</strong> {record.location_id}</p>
+                    <h3 className="section-title" style={{ marginBottom: "8px" }}>
+                      {record.offense_category || "Unknown Crime Type"}
+                    </h3>
+
+                    <p><strong>Description:</strong> {record.offense_description || "N/A"}</p>
+                    <p><strong>Status:</strong> {record.case_status || "N/A"}</p>
+                    <p><strong>Precinct:</strong> {record.police_precinct || "N/A"}</p>
+                    <p><strong>Neighborhood:</strong> {record.neighborhood || "N/A"}</p>
+                    <p><strong>Nearest Intersection:</strong> {record.nearest_intersection || "N/A"}</p>
+                    <p><strong>Occurred At:</strong> {record.incident_occurred_at || "N/A"}</p>
+
+                    <div style={{ marginTop: "12px", fontSize: "14px", color: "#6b7280" }}>
+                      <p><strong>Incident Entry ID:</strong> {record.incident_entry_id}</p>
+                      <p><strong>Case ID:</strong> {record.case_id || "N/A"}</p>
+                      <p><strong>Crime ID:</strong> {record.crime_id || "N/A"}</p>
+                      <p><strong>Report Number:</strong> {record.report_number || "N/A"}</p>
+                    </div>
                   </div>
                 ))}
               </div>
