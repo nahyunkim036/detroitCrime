@@ -41,7 +41,9 @@ app.post('/postData', (req, res) => {
             res.send(err)
         } else {
             console.log(result)
-            res.send("POSTED DATA")
+            res.status(201).json({
+                message: "Incident added successfully"
+            });
         }
     })
 })
