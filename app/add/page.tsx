@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import { API_BASE_URL } from "../lib/api";
 
 export default function AddIncidentPage() {
   const [showOptional, setShowOptional] = useState(false);
@@ -55,7 +56,7 @@ export default function AddIncidentPage() {
     if (payload.incident_day_of_week) payload.incident_day_of_week = Number(payload.incident_day_of_week);
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/postData", {
+      const response = await fetch(`${API_BASE_URL}/postData`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

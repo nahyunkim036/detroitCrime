@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import { API_BASE_URL } from "../lib/api";
 
 export default function UpdatePage() {
   const [incidentEntryId, setIncidentEntryId] = useState("");
@@ -14,8 +15,7 @@ export default function UpdatePage() {
 
   const handleUpdate = async () => {
     try {
-      const response = await fetch(
-        `http://127.0.0.1:5000/updateData/${incidentEntryId}`,
+      const response = await fetch(`${API_BASE_URL}/updateData/${incidentEntryId}`, 
         {
           method: "PUT",
           headers: {

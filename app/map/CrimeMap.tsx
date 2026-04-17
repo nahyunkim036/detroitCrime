@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, CircleMarker, Popup, Tooltip } from "react-leaflet";
+import { API_BASE_URL } from "../lib/api";
 type CrimePoint = {
     incident_entry_id: string;
     incident_occurred_at: string | null;
@@ -20,7 +21,7 @@ export default function CrimeMap() {
     useEffect(() => {
         const fetchMapData = async () => {
             try {
-                const response = await fetch("http://127.0.0.1:5000/mapData");
+                const response = await fetch(`${API_BASE_URL}/mapData`);
                 const data = await response.json();
                 setPoints(data);
             } catch (error) {

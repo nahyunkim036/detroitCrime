@@ -3,6 +3,7 @@
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
 import { useState } from "react";
+import { API_BASE_URL } from "../lib/api";
 
 export default function SearchPage() {
   const [incidentEntryId, setIncidentEntryId] = useState("");
@@ -19,8 +20,7 @@ export default function SearchPage() {
     if (neighborhood) params.append("neighborhood", neighborhood);
     if (policePrecinct) params.append("police_precinct", policePrecinct);
 
-    const url = `http://127.0.0.1:5000/searchData?${params.toString()}`;
-
+    const url = `${API_BASE_URL}/searchData?${params.toString()}`;
     try {
       const response = await fetch(url);
       const data = await response.json();

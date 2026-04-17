@@ -4,6 +4,7 @@ import { useState } from "react";
 
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import { API_BASE_URL } from "../lib/api";
 
 export default function DeletePage() {
   const [incidentEntryId, setIncidentEntryId] = useState("");
@@ -11,8 +12,7 @@ export default function DeletePage() {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch(
-        `http://127.0.0.1:5000/deleteData/${incidentEntryId}`,
+      const response = await fetch(`${API_BASE_URL}/deleteData/${incidentEntryId}`, 
         {
           method: "DELETE",
         }

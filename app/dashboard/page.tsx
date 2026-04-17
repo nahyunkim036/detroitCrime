@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "../components/navbar";
 import Footer from "../components/footer";
+import { API_BASE_URL } from "../lib/api";
 
 type DashboardData = {
   totalRecords: string;
@@ -19,7 +20,7 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/dashboardData");
+        const response = await fetch(`${API_BASE_URL}/dashboardData`);
         const result = await response.json();
         setData(result);
       } catch (error) {
