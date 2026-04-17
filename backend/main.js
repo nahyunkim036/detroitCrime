@@ -1,32 +1,37 @@
-const {Client} = require('pg');
-const express=require('express');
+const { Client } = require("pg");
+const express = require("express");
+const cors = require("cors");
 
-const app=express();
+const app = express();
 app.use(express.json());
-
-const cors = require('cors');
 app.use(cors());
 
-const conn = new Client({
-    host: "localhost",
-    user: "kimnahyun",
-    port: 5432,
-    password: "5178",
-    database: "detroit_crime_db"
-})
+const conn = process.env.DATABASE_URL
+  ? new Client({
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    })
+  : new Client({
+      host: process.env.DB_HOST || "localhost",
+      database: process.env.DB_NAME || "detroit_crime_db",
+      user: process.env.DB_USER || "kimnahyun",
+      password: process.env.DB_PASSWORD || "5178",
+      port: process.env.DB_PORT || 5432,
+    });
 
-// connecting to database ^
+const PORT = process.env.PORT || 5000;
 
 conn.connect()
   .then(() => {
-    console.log('Database connected');
-
-    app.listen(5000, '127.0.0.1', () => {
-      console.log('Server is running on port 5000');
+    console.log("Database connected");
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
     });
   })
   .catch((err) => {
-    console.error('Database connection failed:');
+    console.error("Database connection failed:");
     console.error(err.message);
   });
 
