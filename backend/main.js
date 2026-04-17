@@ -287,3 +287,51 @@ app.get('/mapData', (req, res) => {
         }
     });
 });
+
+// -------------dashboard endpoint ----------
+app.get('/dashboardData', async (req, res) => {
+    try {
+        const totalRecordsResult = await conn.query(`
+            SELECT COUNT(*) AS count
+            FROM crime_incidents
+        `);
+
+        const totalOffenseTypesResult = await conn.query(`
+            SELECT COUNT(*) AS count
+            FROM offense_types
+        `);
+
+        const totalLocationsResult = await conn.query(`
+            SELECT COUNT(*) AS count
+            FROM locations
+        `);
+
+        const totalStatusesResult = await conn.query(`
+            SELECT COUNT(*) AS count
+            FROM case_statuses
+        `);
+
+        const mappedRecordsResult = await conn.query(`
+            SELECT COUNT(*) AS count
+            FROM crime_incidents ci
+            JOIN locations l
+              ON ci.location_id = l.location_id
+            WHERE l.latitude IS NOT NULL
+              AND l.longitude IS NOT NULL
+        `);
+
+        res.json({
+            totalRecords: totalRecordsResult.rows[0].count,
+            totalOffenseTypes: totalOffenseTypesResult.rows[0].count,
+            totalLocations: totalLocationsResult.rows[0].count,
+            totalStatuses: totalStatusesResult.rows[0].count,
+            mappedRecords: mappedRecordsResult.rows[0].count,
+        });
+    } catch (error) {
+        console.error("dashboardData error:", error);
+        res.status(500).json({
+            message: "Failed to load dashboard data",
+            error: error.message,
+        });
+    }
+});
